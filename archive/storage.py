@@ -34,7 +34,7 @@ def parse_line(line):
     EmptyDict = {}
     s = ""
     prev_comma = 0
-    for i in line:
+    for i in range(len(line)):
             if(line[i] == ','):
                 prev_comma += 1
                 if(prev_comma == 1):
@@ -70,6 +70,8 @@ def parse_line(line):
             raise MalformedRecordError("parse_line")
     elif(EmptyDict["condition"] == ""):
             raise MalformedRecordError("parse_line")
+    else:
+         return EmptyDict
         
 
 
@@ -89,7 +91,23 @@ def load_archive(path):
 
     Returns (list, list).
     """
-    raise NotImplementedError("load_archive")
+
+    valid_records = []
+    rejected_lines = []
+    with open(path, "r") as file:
+        for line in file:
+            try:
+                result = parse_line(line)
+                valid_records.append(result)
+
+            except MalformedRecordError:
+                rejected_lines.append(line)
+    return(valid_records, rejected_lines)
+    
+
+            
+            
+
 
 
 def save_archive(path, records):
@@ -99,4 +117,5 @@ def save_archive(path, records):
 
     Returns None.
     """
+    
     raise NotImplementedError("save_archive")
