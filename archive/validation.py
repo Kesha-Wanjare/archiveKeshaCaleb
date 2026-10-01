@@ -124,7 +124,32 @@ def validate_year(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_year")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.strip() == "":
+        isgood = False
+        reason = "Year is empty"
+        return (isgood,reason)
+        
+    try:
+        year_int = int(value)
+    except ValueError:
+        isgood = False
+        reason = "Year is not numeric"
+        return (isgood,reason)
+        
+    if year_int < MIN_YEAR or year_int > MAX_YEAR:
+        isgood = False
+        reason = "Year is out of range"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_condition(value):
@@ -135,7 +160,20 @@ def validate_condition(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_condition")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.lower() not in [condition.lower() for condition in VALID_CONDITIONS]:
+        isgood = False
+        reason = "Condition not in known list"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_record(record):
