@@ -54,7 +54,7 @@ def validate_id(value):
         reason = "ID does not start with MS"
         return (isgood,reason)
         
-    if value[2].isdigit() != 1 or value[2].isdigit() != 1 or value[4].isdigit() != 1:
+    if value[2].isdigit() != 1 or value[3].isdigit() != 1 or value[4].isdigit() != 1:
         isgood = False
         reason = "Must have 3 digits as last three elements of ID"
         return (isgood,reason)
@@ -187,4 +187,26 @@ def validate_record(record):
 
     Do not re-write the rules here. Call the five functions above.
     """
-    raise NotImplementedError("validate_record")
+    reasons = []
+    
+    id_valid, id_reason = validate_id(record.get("id", ""))
+    if not id_valid:
+        reasons.append(id_reason)
+        
+    title_valid, title_reason = validate_title(record.get("title", ""))
+    if not title_valid:
+        reasons.append(title_reason)
+        
+    city_valid, city_reason = validate_city(record.get("city", ""))
+    if not city_valid:
+        reasons.append(city_reason)
+        
+    year_valid, year_reason = validate_year(record.get("year", ""))
+    if not year_valid:
+        reasons.append(year_reason)
+        
+    condition_valid, condition_reason = validate_condition(record.get("condition", ""))
+    if not condition_valid:
+        reasons.append(condition_reason)
+        
+    return reasons
