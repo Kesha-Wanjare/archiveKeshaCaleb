@@ -71,7 +71,20 @@ def validate_title(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_title")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if len(value.strip()) < 3:
+        isgood = False
+        reason = "Title must be at least 3 characters long"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_city(value):
@@ -83,7 +96,20 @@ def validate_city(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_city")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.lower() not in [city.lower() for city in KNOWN_CITIES]:
+        isgood = False
+        reason = "City not in known list"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_year(value):
