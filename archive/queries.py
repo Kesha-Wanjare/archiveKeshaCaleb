@@ -19,7 +19,11 @@ def count_before(records, year):
 
     Returns int.
     """
-    raise NotImplementedError("count_before")
+    count = 0
+    for record in records:
+        if int(record["year"]) < year:
+            count += 1
+    return count
 
 
 def find_by_city(records, city):
@@ -30,7 +34,11 @@ def find_by_city(records, city):
 
     Returns list of dicts (empty list if none match).
     """
-    raise NotImplementedError("find_by_city")
+    goodrecords =[]
+    for record in records:
+        if record["city"].lower() == city.lower():
+            goodrecords.append(record)
+    return goodrecords
 
 
 def oldest(records):
@@ -43,8 +51,14 @@ def oldest(records):
 
     Returns dict or None.
     """
-    raise NotImplementedError("oldest")
+    if len(records) == 0:
+        return None
+    oldest_record = records[0]
 
+    for record in records:
+        if record["year"] < oldest_record["year"]:
+            oldest_record = record
+    return oldest_record
 
 def cities_summary(records):
     """How many manuscripts come from each city?
@@ -53,7 +67,14 @@ def cities_summary(records):
     does not appear as a key at all — do not pre-fill from KNOWN_CITIES.
 
     Use the city spelling exactly as it appears in the records.
-
+    KNOWN_CITIES = ["Timbuktu", "Djenne", "Gao", "Walata", "Chinguetti"]
     Returns dict.
     """
-    raise NotImplementedError("cities_summary")
+    summary = {}
+    for record in records:
+        city = record["city"]
+        if city in summary:
+            summary[city] += 1
+        else:
+            summary[city] =1
+    return summary
