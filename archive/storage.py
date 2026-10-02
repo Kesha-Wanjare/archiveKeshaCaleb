@@ -96,12 +96,15 @@ def load_archive(path):
     rejected_lines = []
     with open(path, "r") as file:
         for line in file:
-            try:
-                result = parse_line(line)
-                valid_records.append(result)
+            if line == "":
+                continue
+            else:
+                try:
+                    result = parse_line(line)
+                    valid_records.append(result)
 
-            except MalformedRecordError:
-                rejected_lines.append(line)
+                except MalformedRecordError:
+                    rejected_lines.append(line)
     return(valid_records, rejected_lines)
     
 
@@ -117,5 +120,28 @@ def save_archive(path, records):
 
     Returns None.
     """
-    
+    with open(path, "w") as file:
+        commas = 0
+        temp = ""
+        for i in range(len(records)):
+            if(records[i] == ','):
+                commas += 1
+                file.write(f"{s},")
+                s = ""
+            match commas:
+                case 0:
+                    s += record[i]
+                case 1:
+                    s += record[i]
+                case 2:
+                    s += record[i]
+                case 3:
+                    s += record[i]
+                case 4:
+                    s += record[i]
+        
+
+
+            
+
     raise NotImplementedError("save_archive")
