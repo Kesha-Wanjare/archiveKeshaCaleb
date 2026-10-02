@@ -67,7 +67,14 @@ def cities_summary(records):
     does not appear as a key at all — do not pre-fill from KNOWN_CITIES.
 
     Use the city spelling exactly as it appears in the records.
-
+    KNOWN_CITIES = ["Timbuktu", "Djenne", "Gao", "Walata", "Chinguetti"]
     Returns dict.
     """
-    raise NotImplementedError("cities_summary")
+    summary = {}
+    for record in records:
+        city = record["city"]
+        if city in summary:
+            summary[city] += 1
+        else:
+            summary[city] =1
+    return summary
