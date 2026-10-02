@@ -15,6 +15,10 @@ def validate_id(value):
     """
     reason = ""
     isgood = True
+    if value == None:
+        isgood = False
+        reason = "No ID provided"
+        return (isgood,reason)
     
     if type(value) != str:
         isgood = False
