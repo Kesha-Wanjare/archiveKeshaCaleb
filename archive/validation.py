@@ -31,7 +31,7 @@ def validate_id(value):
         reason = "ID does not start with MS"
         return (isgood,reason)
         
-    if value[2].isdigit() != 1 or value[2].isdigit() != 1 or value[4].isdigit() != 1:
+    if value[2].isdigit() != 1 or value[3].isdigit() != 1 or value[4].isdigit() != 1:
         isgood = False
         reason = "Must have 3 digits as last three elements of ID"
         return (isgood,reason)
