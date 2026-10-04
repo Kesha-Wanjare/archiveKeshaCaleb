@@ -126,3 +126,9 @@ GOOD_RECORD = {
     "condition": "fragile",
 }
 
+SAMPLE = [
+    {"id": "MS001", "title": "Tarikh al-Sudan", "city": "Timbuktu", "year": "1655", "condition": "fragile"},
+    {"id": "MS002", "title": "Kitab al-Tara'if", "city": "Djenne", "year": "1590", "condition": "good"},
+    {"id": "MS003", "title": "Risala fi'l-Nujum", "city": "Timbuktu", "year": "1548", "condition": "fragile"},
+]
+
