@@ -225,4 +225,4 @@ def test_validate_record_accepts_partial_faults():
     }
     errors = validate_record(record_with_partial_faults)
     assert len(errors) == 1  # Only the year should be invalid
-
+# We still need to do the tests for the queries and the storage functions, but this is a good start for the validation tests.
