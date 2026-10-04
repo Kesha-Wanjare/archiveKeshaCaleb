@@ -79,6 +79,30 @@ def test_condition_case():
 # TODO: write them here.
 
 
+def test_validate_year_normal():
+    assert validate_year("1655")[0] is True
+
+
+def test_validate_year_abnormal():
+    assert validate_year("c.1590")[0] is False
+
+
+def test_validate_year_extreme_low():
+    assert validate_year("1100")[0] is True
+
+
+def test_validate_year_extreme_high():
+    assert validate_year("1900")[0] is True
+
+
+def test_validate_year_boundary_below():
+    assert validate_year("1099")[0] is False
+
+
+def test_validate_year_boundary_above():
+    assert validate_year("1901")[0] is False
+
+
 # ============================================================== your tests
 # Everything below is yours. Suggested coverage, in the order the marks are
 # easiest to earn:
