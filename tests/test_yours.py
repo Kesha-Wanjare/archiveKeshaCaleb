@@ -132,3 +132,23 @@ SAMPLE = [
     {"id": "MS003", "title": "Risala fi'l-Nujum", "city": "Timbuktu", "year": "1548", "condition": "fragile"},
 ]
 
+def test_validate_id_accepts_good_format():
+    assert validate_id("MS001")[0] is True
+
+
+def test_validate_id_rejects_lowercase_prefix():
+    assert validate_id("ms001")[0] is False
+
+
+def test_validate_id_rejects_wrong_length():
+    assert validate_id("MS1")[0] is False
+
+
+def test_validate_id_rejects_non_numeric_suffix():
+    assert validate_id("MS00A")[0] is False
+
+
+def test_validate_id_rejects_empty_string():
+    assert validate_id("")[0] is False
+
+
