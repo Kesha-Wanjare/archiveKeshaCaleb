@@ -35,43 +35,43 @@ def parse_line(line):
     s = ""
     prev_comma = 0
     for i in range(len(line)):
-            if(line[i] == ','):
-                prev_comma += 1
-                if(prev_comma == 1):
-                    s.strip()
-                    EmptyDict["id"] = s
-                    s = ""
-                elif(prev_comma == 2):
-                    s.strip()
-                    EmptyDict["title"] = s
-                    s = ""
-                elif(prev_comma == 3):
-                    s.strip()
-                    EmptyDict["city"] = s
-                    s = ""
-                elif(prev_comma == 4):
-                    s.strip()
-                    EmptyDict["year"] = s
-                    s = ""
-            
-            elif i == len(line) - 1:
-                s.strip()
-                EmptyDict["condition"] = s
+        if line[i] == ',':
+            prev_comma += 1
+            if prev_comma == 1:
+                EmptyDict["id"] = s.strip()
+                s = ""
+            elif prev_comma == 2:
+                EmptyDict["title"] = s.strip()
+                s = ""
+            elif prev_comma == 3:
+                EmptyDict["city"] = s.strip()
+                s = ""
+            elif prev_comma == 4:
+                EmptyDict["year"] = s.strip()
                 s = ""
             else:
-                s += line[i]
-    if(EmptyDict["id"] == ""):
-            raise MalformedRecordError("parse_line")
-    elif(EmptyDict["title"] == ""):
-            raise MalformedRecordError("parse_line")
-    elif(EmptyDict["city"] == ""):
-            raise MalformedRecordError("parse_line")
-    elif(EmptyDict["year"] == ""):
-            raise MalformedRecordError("parse_line")
-    elif(EmptyDict["condition"] == ""):
-            raise MalformedRecordError("parse_line")
+                raise MalformedRecordError("parse_line")
+        else:
+            s += line[i]
+
+    if prev_comma != 4:
+        raise MalformedRecordError("parse_line")
+
+    EmptyDict["condition"] = s.strip()
+
+    if EmptyDict["id"] == "":
+        raise MalformedRecordError("parse_line")
+    elif EmptyDict["title"] == "":
+        raise MalformedRecordError("parse_line")
+    elif EmptyDict["city"] == "":
+        raise MalformedRecordError("parse_line")
+    elif EmptyDict["year"] == "":
+        raise MalformedRecordError("parse_line")
+    elif EmptyDict["condition"] == "":
+        raise MalformedRecordError("parse_line")
     else:
-         return EmptyDict
+        return EmptyDict
+
         
 
 
@@ -130,15 +130,15 @@ def save_archive(path, records):
                 s = ""
             match commas:
                 case 0:
-                    s += record[i]
+                    s += records[i]
                 case 1:
-                    s += record[i]
+                    s += records[i]
                 case 2:
-                    s += record[i]
+                    s += records[i]
                 case 3:
-                    s += record[i]
+                    s += records[i]
                 case 4:
-                    s += record[i]
+                    s += records[i]
         
 
 
