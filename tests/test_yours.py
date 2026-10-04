@@ -116,3 +116,13 @@ def test_validate_year_boundary_above():
 #   load_archive         missing file, the clean file, the messy file
 #   save_archive         round trip: save then load gives back what you saved
 #   queries              empty list, ties, case-insensitive city
+
+
+GOOD_RECORD = {
+    "id": "MS001",
+    "title": "Tarikh al-Sudan",
+    "city": "Timbuktu",
+    "year": "1655",
+    "condition": "fragile",
+}
+
