@@ -35,20 +35,21 @@ def parse_line(line):
     EmptyDict = {}
     s = ""
     prev_comma = 0
+    line = line.rstrip("\n")   # the newline is a record separator, not data
     for i in range(len(line)):
         if line[i] == ',':
             prev_comma += 1
             if prev_comma == 1:
-                EmptyDict["id"] = s.strip()
+                EmptyDict["id"] = s
                 s = ""
             elif prev_comma == 2:
-                EmptyDict["title"] = s.strip()
+                EmptyDict["title"] = s
                 s = ""
             elif prev_comma == 3:
-                EmptyDict["city"] = s.strip()
+                EmptyDict["city"] = s
                 s = ""
             elif prev_comma == 4:
-                EmptyDict["year"] = s.strip()
+                EmptyDict["year"] = s
                 s = ""
             else:
                 raise MalformedRecordError("parse_line")
@@ -58,20 +59,8 @@ def parse_line(line):
     if prev_comma != 4:
         raise MalformedRecordError("parse_line")
 
-    EmptyDict["condition"] = s.strip()
-
-    if EmptyDict["id"] == "":
-        raise MalformedRecordError("parse_line")
-    elif EmptyDict["title"] == "":
-        raise MalformedRecordError("parse_line")
-    elif EmptyDict["city"] == "":
-        raise MalformedRecordError("parse_line")
-    elif EmptyDict["year"] == "":
-        raise MalformedRecordError("parse_line")
-    elif EmptyDict["condition"] == "":
-        raise MalformedRecordError("parse_line")
-    else:
-        return EmptyDict
+    EmptyDict["condition"] = s
+    return EmptyDict
 
         
 
