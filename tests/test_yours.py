@@ -102,6 +102,12 @@ def test_validate_year_boundary_below():
 def test_validate_year_boundary_above():
     assert validate_year("1901")[0] is False
 
+def test_validate_year_empty():
+    assert validate_year("")[0] is False
+
+def test_validate_year_not_numeric():
+    assert validate_year("12A4")[0] is False
+
 
 # ============================================================== your tests
 # Everything below is yours. Suggested coverage, in the order the marks are
@@ -178,3 +184,45 @@ def test_validate_city_rejects_unknown_city():
 
 def test_validate_city_accepts_other_known_city():
     assert validate_city("Gao")[0] is True
+
+def test_validate_condition_accepts_other_valid_value():
+    assert validate_condition("fair")[0] is True
+
+
+def test_validate_condition_accepts_uppercase():
+    assert validate_condition("GOOD")[0] is True
+
+
+def test_validate_condition_rejects_invalid():
+    assert validate_condition("excellent")[0] is False
+
+
+def test_validate_condition_rejects_empty():
+    assert validate_condition("")[0] is False
+
+
+def test_validate_record_accepts_clean_record():
+    assert validate_record(GOOD_RECORD) == []
+
+def test_validate_record_rejects_multiple_faults():
+    record_with_faults = {
+        "id": "ms001",  # lowercase prefix
+        "title": "  ",  # whitespace only
+        "city": "UnknownCity",  # unknown city
+        "year": "2000",  # out of range
+        "condition": "excellent",  # invalid condition
+    }
+    errors = validate_record(record_with_faults)
+    assert len(errors) == 5  # Expecting 5 errors for each field
+
+def test_validate_record_accepts_partial_faults():
+    record_with_partial_faults = {
+        "id": "MS001",
+        "title": "Valid Title",
+        "city": "Timbuktu",
+        "year": "2000",  # out of range
+        "condition": "good",
+    }
+    errors = validate_record(record_with_partial_faults)
+    assert len(errors) == 1  # Only the year should be invalid
+
