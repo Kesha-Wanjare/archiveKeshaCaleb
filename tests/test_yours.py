@@ -152,3 +152,29 @@ def test_validate_id_rejects_empty_string():
     assert validate_id("")[0] is False
 
 
+def test_validate_title_accepts_normal_string():
+    assert validate_title("Tarikh al-Sudan")[0] is True
+
+
+def test_validate_title_rejects_whitespace_only():
+    assert validate_title("   ")[0] is False
+
+
+def test_validate_title_rejects_too_short_after_strip():
+    assert validate_title(" Ab ")[0] is False
+
+
+def test_validate_title_accepts_exactly_three_characters():
+    assert validate_title("abc")[0] is True
+
+
+def test_validate_city_accepts_known_value_case_insensitive():
+    assert validate_city("timbuktu")[0] is True
+
+
+def test_validate_city_rejects_unknown_city():
+    assert validate_city("Kano")[0] is False
+
+
+def test_validate_city_accepts_other_known_city():
+    assert validate_city("Gao")[0] is True
