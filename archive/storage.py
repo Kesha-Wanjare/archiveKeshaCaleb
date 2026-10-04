@@ -14,6 +14,7 @@ any work.
 """
 
 from archive.errors import MalformedRecordError
+from archive.validation import validate_record
 
 FIELD_NAMES = ["id", "title", "city", "year", "condition"]
 
@@ -94,18 +95,24 @@ def load_archive(path):
 
     valid_records = []
     rejected_lines = []
-    with open(path, "r") as file:
-        for line in file:
-            if line == "":
-                continue
-            else:
+    try:
+        with open(path, "r") as file:
+            for line in file:
+                if line.strip() == "":
+                    continue
                 try:
                     result = parse_line(line)
-                    valid_records.append(result)
-
+                    if validate_record(result):
+                        valid_records.append(result)
+                    else:
+                        rejected_lines.append(line)
                 except MalformedRecordError:
                     rejected_lines.append(line)
-    return(valid_records, rejected_lines)
+    except FileNotFoundError:
+        return [], []
+
+    return valid_records, rejected_lines
+
     
 
             
