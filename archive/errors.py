@@ -8,7 +8,6 @@ class MalformedRecordError(Exception):
     be split into the five fields we expect, so there is nothing to validate.
     An invalid record splits fine but contains values we do not trust.
     """
-
-
+    
 class ArchiveError(Exception):
     """Base class for any other Archive problem you want to raise."""

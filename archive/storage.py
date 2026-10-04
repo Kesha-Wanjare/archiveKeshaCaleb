@@ -14,6 +14,7 @@ any work.
 """
 
 from archive.errors import MalformedRecordError
+from archive.validation import validate_record
 
 FIELD_NAMES = ["id", "title", "city", "year", "condition"]
 
@@ -31,7 +32,37 @@ def parse_line(line):
 
     Returns dict.
     """
-    raise NotImplementedError("parse_line")
+    EmptyDict = {}
+    s = ""
+    prev_comma = 0
+    line = line.rstrip("\n")   # the newline is a record separator, not data
+    for i in range(len(line)):
+        if line[i] == ',':
+            prev_comma += 1
+            if prev_comma == 1:
+                EmptyDict["id"] = s
+                s = ""
+            elif prev_comma == 2:
+                EmptyDict["title"] = s
+                s = ""
+            elif prev_comma == 3:
+                EmptyDict["city"] = s
+                s = ""
+            elif prev_comma == 4:
+                EmptyDict["year"] = s
+                s = ""
+            else:
+                raise MalformedRecordError("parse_line")
+        else:
+            s += line[i]
+
+    if prev_comma != 4:
+        raise MalformedRecordError("parse_line")
+
+    EmptyDict["condition"] = s
+    return EmptyDict
+
+        
 
 
 def load_archive(path):
@@ -50,7 +81,32 @@ def load_archive(path):
 
     Returns (list, list).
     """
-    raise NotImplementedError("load_archive")
+
+    valid_records = []
+    rejected_lines = []
+    try:
+        with open(path, "r") as file:
+            for line in file:
+                if line.strip() == "":
+                    continue
+                try:
+                    result = parse_line(line)
+                    if validate_record(result):
+                        valid_records.append(result)
+                    else:
+                        rejected_lines.append(line)
+                except MalformedRecordError:
+                    rejected_lines.append(line)
+    except FileNotFoundError:
+        return [], []
+
+    return valid_records, rejected_lines
+
+    
+
+            
+            
+
 
 
 def save_archive(path, records):
@@ -60,4 +116,28 @@ def save_archive(path, records):
 
     Returns None.
     """
+    with open(path, "w") as file:
+        commas = 0
+        temp = ""
+        for i in range(len(records)):
+            if(records[i] == ','):
+                commas += 1
+                file.write(f"{s},")
+                s = ""
+            match commas:
+                case 0:
+                    s += records[i]
+                case 1:
+                    s += records[i]
+                case 2:
+                    s += records[i]
+                case 3:
+                    s += records[i]
+                case 4:
+                    s += records[i]
+        
+
+
+            
+
     raise NotImplementedError("save_archive")
