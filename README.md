@@ -12,11 +12,11 @@
 
 | Field | Type | Example | If it is unknown, we… |
 | --- | --- | --- | --- |
-| id |  | `MS001` |  |
-| title |  |  |  |
-| city |  |  |  |
-| year |  |  |  |
-| condition |  |  |  |
+| id | string | `MS001` |  |
+| title | string | "Tarikh al-Sudan" |  |
+| city | string | "Gao" |  |
+| year | integer | 1900 |  |
+| condition | string | 'fair' |  |
 
 ---
 
@@ -61,11 +61,11 @@
 | Test data | Value | Expected | Actual | Pass? |
 | --- | --- | --- | --- | --- |
 | Normal | 1655 | valid |  |  |
-| Abnormal |  |  |  |  |
+| Abnormal | Kesha | invalid |  |  |
 | Extreme (low) | 1100 | valid |  |  |
-| Extreme (high) |  |  |  |  |
+| Extreme (high) | 1900 | valid |  |  |
 | Boundary (below) | 1099 | invalid |  |  |
-| Boundary (above) |  |  |  |  |
+| Boundary (above) | 1901 | invalid |  |  |
 
 ### `_______________` *(one other field of your choice)*
 
@@ -78,9 +78,11 @@
 
 *One paragraph each, written separately and signed. Do not write these together — the point is two honest accounts.*
 
-***(partner 1 name)*:** One thing my partner did that I will steal: One thing I would do differently next time:
+***(Caleb)*:** One thing my partner did that I will steal: 
+One thing I would do differently next time: 
 
-***(partner 2 name)*:** One thing my partner did that I will steal: One thing I would do differently next time:
+***(Kesha)*:** One thing my partner did that I will steal: He reviewed the code in its entirety and gave actual edge cases and feedback, that probably stopped a potential crash.
+One thing I would do differently next time: I would try to be more involved with our direct completion of objectives.
 
 ---
 
