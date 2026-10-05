@@ -302,3 +302,11 @@ def test_queries_oldest_returns_earliest_record():
 
 def test_queries_oldest_of_empty_list_is_none():
     assert oldest([]) is None
+
+
+def test_save_archive_round_trip_preserves_records():
+    path = os.path.join(tempfile.mkdtemp(), "out.csv")
+    save_archive(path, SAMPLE)
+    records, rejected = load_archive(path)
+    assert records == SAMPLE
+    assert rejected == []
