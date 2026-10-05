@@ -116,7 +116,7 @@ def save_archive(path, records):
 
     Returns None.
     """
-    ith open(path, "w") as file:
+    with open(path, "w") as file:
         for record in records:
             temp = ""
             for name in FIELD_NAMES:
