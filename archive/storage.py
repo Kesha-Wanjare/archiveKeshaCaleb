@@ -35,7 +35,7 @@ def parse_line(line):
     EmptyDict = {}
     s = ""
     prev_comma = 0
-    line = line.rstrip("\n")   # the newline is a record separator, not data
+    line = line.rstrip("\n")   
     for i in range(len(line)):
         if line[i] == ',':
             prev_comma += 1
