@@ -12,11 +12,11 @@
 
 | Field | Type | Example | If it is unknown, we… |
 | --- | --- | --- | --- |
-| id | string | `MS001` |  |
-| title | string | "Tarikh al-Sudan" |  |
-| city | string | "Gao" |  |
-| year | integer | 1900 |  |
-| condition | string | 'fair' |  |
+| id | string | `MS001` | return a boolean with the value false and why, i.e its nonexistence |
+| title | string | "Tarikh al-Sudan" | we return a boolean 'false' and the reason: i.e less than 3 characters |
+| city | string | "Gao" | we return a boolean 'false' and the reason: is not in known cities|
+| year | integer | 1900 | we return a boolean 'false' and the reason: i.e is not in the accepted range|
+| condition | string | 'fair' | we return a boolean 'false' and the reason: It is not one of the recorded conditions |
 
 ---
 
@@ -24,11 +24,11 @@
 
 | Field | Rule(s) | Rejects (example) |
 | --- | --- | --- |
-| id |  |  |
-| title |  |  |
-| city |  |  |
-| year |  |  |
-| condition |  |  |
+| id |  Must start with MS, case sensitive, and have 3 digits after| QR123  |
+| title | Must be at least 3 characters long |  Ab |
+| city | Must appear in the list and appear in known ciities, case doesnt matter | Calebjojo |
+| year | must be between 1100 and 1900 inclusive  | 5050 |
+| condition |  must be one of the possible conditions, case doesnt matter| Ew |
 
 ### Who decided the year range?
 
