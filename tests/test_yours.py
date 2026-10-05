@@ -79,6 +79,36 @@ def test_condition_case():
 # TODO: write them here.
 
 
+def test_validate_year_normal():
+    assert validate_year("1655")[0] is True
+
+
+def test_validate_year_abnormal():
+    assert validate_year("c.1590")[0] is False
+
+
+def test_validate_year_extreme_low():
+    assert validate_year("1100")[0] is True
+
+
+def test_validate_year_extreme_high():
+    assert validate_year("1900")[0] is True
+
+
+def test_validate_year_boundary_below():
+    assert validate_year("1099")[0] is False
+
+
+def test_validate_year_boundary_above():
+    assert validate_year("1901")[0] is False
+
+def test_validate_year_empty():
+    assert validate_year("")[0] is False
+
+def test_validate_year_not_numeric():
+    assert validate_year("12A4")[0] is False
+
+
 # ============================================================== your tests
 # Everything below is yours. Suggested coverage, in the order the marks are
 # easiest to earn:
@@ -92,3 +122,191 @@ def test_condition_case():
 #   load_archive         missing file, the clean file, the messy file
 #   save_archive         round trip: save then load gives back what you saved
 #   queries              empty list, ties, case-insensitive city
+
+
+GOOD_RECORD = {
+    "id": "MS001",
+    "title": "Tarikh al-Sudan",
+    "city": "Timbuktu",
+    "year": "1655",
+    "condition": "fragile",
+}
+
+SAMPLE = [
+    {"id": "MS001", "title": "Tarikh al-Sudan", "city": "Timbuktu", "year": "1655", "condition": "fragile"},
+    {"id": "MS002", "title": "Kitab al-Tara'if", "city": "Djenne", "year": "1590", "condition": "good"},
+    {"id": "MS003", "title": "Risala fi'l-Nujum", "city": "Timbuktu", "year": "1548", "condition": "fragile"},
+]
+
+def test_validations_validate_id_accepts_good_format():
+    assert validate_id("MS001")[0] is True
+
+
+def test_validations_validate_id_rejects_lowercase_prefix():
+    assert validate_id("ms001")[0] is False
+
+
+def test_validations_validate_id_rejects_wrong_length():
+    assert validate_id("MS1")[0] is False
+
+
+def test_validations_validate_id_rejects_non_numeric_suffix():
+    assert validate_id("MS00A")[0] is False
+
+
+def test_validations_validate_id_rejects_empty_string():
+    assert validate_id("")[0] is False
+
+
+def test_validations_validate_title_accepts_normal_string():
+    assert validate_title("Tarikh al-Sudan")[0] is True
+
+
+def test_validations_validate_title_rejects_whitespace_only():
+    assert validate_title("   ")[0] is False
+
+
+def test_validations_validate_title_rejects_too_short_after_strip():
+    assert validate_title(" Ab ")[0] is False
+
+
+def test_validations_validate_title_accepts_exactly_three_characters():
+    assert validate_title("abc")[0] is True
+
+
+def test_validations_validate_city_accepts_known_value_case_insensitive():
+    assert validate_city("timbuktu")[0] is True
+
+
+def test_validations_validate_city_rejects_unknown_city():
+    assert validate_city("Kano")[0] is False
+
+
+def test_validations_validate_city_accepts_other_known_city():
+    assert validate_city("Gao")[0] is True
+
+def test_validations_validate_condition_accepts_other_valid_value():
+    assert validate_condition("fair")[0] is True
+
+
+def test_validations_validate_condition_accepts_uppercase():
+    assert validate_condition("GOOD")[0] is True
+
+
+def test_validations_validate_condition_rejects_invalid():
+    assert validate_condition("excellent")[0] is False
+
+
+def test_validations_validate_condition_rejects_empty():
+    assert validate_condition("")[0] is False
+
+
+def test_validations_validate_record_accepts_clean_record():
+    assert validate_record(GOOD_RECORD) == []
+
+def test_validations_validate_record_rejects_multiple_faults():
+    record_with_faults = {
+        "id": "ms001",  # lowercase prefix
+        "title": "  ",  # whitespace only
+        "city": "UnknownCity",  # unknown city
+        "year": "2000",  # out of range
+        "condition": "excellent",  # invalid condition
+    }
+    errors = validate_record(record_with_faults)
+    assert len(errors) == 5  # Expecting 5 errors for each field
+
+def test_validations_validate_record_accepts_partial_faults():
+    record_with_partial_faults = {
+        "id": "MS001",
+        "title": "Valid Title",
+        "city": "Timbuktu",
+        "year": "2000",  # out of range
+        "condition": "good",
+    }
+    errors = validate_record(record_with_partial_faults)
+    assert len(errors) == 1  # Only the year should be invalid
+
+def test_storage_parse_line_splits_five_fields():
+    got = parse_line("MS001,Tarikh al-Sudan,Timbuktu,1655,fragile")
+    assert got == {
+        "id" : "MS001",
+        "title" : "Tarikh al-Sudan",
+        "city": "Timbuktu",
+        "year": "1655",
+        "condition": "fragile"
+    }
+
+def test_storage_parse_line_strips_white_space():
+    got = parse_line("MS001     ,   tttaaan  nuuuiii     ,Timbuktu,1655,    fragile")
+    assert got == {
+        "id" : "MS001",
+        "title" : "tttaaan  nuuuiii",
+        "city": "Timbuktu",
+        "year": "1655",
+        "condition": "   fragile"
+    }
+
+def test_storage_parse_line_rejects_four_fields():
+    with pytest.raises(MalformedRecordError):
+        parse_line("MS008,Sharh al-Mukhtasar,Djenne,1644")
+
+
+def test_storage_parse_line_rejects_six_fields():
+    with pytest.raises(MalformedRecordError):
+        parse_line("MS008,Sharh al-Mukhtasar,Djenne,1644,good,extra")
+
+def test_storage_load_archive_filenotfound_returns_empty_lists():
+    path = "data/NODATAwhatsoever.csv"
+    records,rejected = load_archive(path)
+    assert records == []
+    assert rejected == []
+
+def test_storage_load_archive_returns_clean_file():
+    path = "data/archive.csv"
+    records,rejected = load_archive(path)
+    assert len(records) == 20
+    assert rejected == []
+
+def test_storage_load_archive_returns_rejectedfiles_and_good_files_from_a_mix():
+    path = "data/messy.csv"
+    records,rejected = load_archive(path)
+    assert len(records) > 0
+    assert len(rejected) > 1
+
+def test_queries_cities_summary_handles_empty_list():
+    assert cities_summary([]) == {}
+
+def test_queries_cities_summary_counts_properly():
+    assert cities_summary(SAMPLE) == {"Timbuktu": 2, "Djenne": 1}
+
+def test_queries_oldest_breaks_ties_by_first_position():
+    tiedsample = [
+        {"id": "MS001", "title": "A", "city": "Timbuktu", "year": "1600", "condition": "good"},
+        {"id": "MS002", "title": "B", "city": "Djenne", "year": "1600", "condition": "fragile"},
+    ]
+    assert oldest(tiedsample)["id"] == "MS001"
+
+def test_queries_find_by_city_is_case_insensitive_and_preserves_order():
+    result = find_by_city(SAMPLE, "TIMBUKTU")
+    assert len(result) == 2
+    assert [record["id"] for record in result] == ["MS001", "MS003"]
+
+
+def test_queries_find_by_city_returns_empty_when_no_match():
+    assert find_by_city(SAMPLE, "Kano") == []
+
+
+def test_queries_oldest_returns_earliest_record():
+    assert oldest(SAMPLE)["id"] == "MS003"
+
+
+def test_queries_oldest_of_empty_list_is_none():
+    assert oldest([]) is None
+
+
+def test_save_archive_round_trip_preserves_records():
+    path = os.path.join(tempfile.mkdtemp(), "out.csv")
+    save_archive(path, SAMPLE)
+    records, rejected = load_archive(path)
+    assert records == SAMPLE
+    assert rejected == []
