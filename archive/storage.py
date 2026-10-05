@@ -116,9 +116,26 @@ def save_archive(path, records):
 
     Returns None.
     """
-    with open(path, "w") as file:
-        for record in records:
-            temp = ""
-            for name in FIELD_NAMES:
-                temp += record[name] + ","
-            file.write(temp[:-1] + "\n")
+    with
+        for i in range(len(records)):
+            if(records[i] == ','):
+                commas += 1
+                file.write(f"{s},")
+                s = ""
+            match commas:
+                case 0:
+                    s += records[i]
+                case 1:
+                    s += records[i]
+                case 2:
+                    s += records[i]
+                case 3:
+                    s += records[i]
+                case 4:
+                    s += records[i]
+        
+
+
+            
+
+    raise NotImplementedError("save_archive")
