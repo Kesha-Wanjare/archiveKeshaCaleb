@@ -225,4 +225,36 @@ def test_validate_record_accepts_partial_faults():
     }
     errors = validate_record(record_with_partial_faults)
     assert len(errors) == 1  # Only the year should be invalid
-# We still need to do the tests for the queries and the storage functions, but this is a good start for the validation tests.
+
+def test_parse_line_splits_five_fields():
+    got = parse_line("MS001,Tarikh al-Sudan,Timbuktu,1655,fragile")
+    assert got == {
+        "id" : "MS001",
+        "title" : "Tarikh al-Sudan",
+        "city": "Timbuktu",
+        "year": "1655",
+        "condition": "fragile"
+    }
+
+def test_parse_line_strips_white_space():
+    got = parse_line("MS001     ,   tttaaan  nuuuiii     ,Timbuktu,1655,    fragile")
+    assert got == {
+        "id" : "MS001",
+        "title" : "tttaaan  nuuuiii",
+        "city": "Timbuktu",
+        "year": "1655",
+        "condition": "   fragile"
+    }
+
+def test_parse_line_rejects_four_fields():
+    with pytest.raises(MalformedRecordError):
+        parse_line("MS008,Sharh al-Mukhtasar,Djenne,1644")
+
+
+def test_parse_line_rejects_six_fields():
+    with pytest.raises(MalformedRecordError):
+        parse_line("MS008,Sharh al-Mukhtasar,Djenne,1644,good,extra")
+
+
+
+
