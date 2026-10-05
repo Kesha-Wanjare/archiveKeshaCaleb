@@ -255,6 +255,21 @@ def test_parse_line_rejects_six_fields():
     with pytest.raises(MalformedRecordError):
         parse_line("MS008,Sharh al-Mukhtasar,Djenne,1644,good,extra")
 
+def test_load_archive_filenotfound_returns_empty_lists():
+    path = "data/NODATAwhatsoever.csv"
+    records,rejected = load_archive(path)
+    assert records = []
+    assert rejected = []
 
+def test_load_archive_returns_clean_file():
+    path = "data/archive.csv"
+    records,rejected = load_archive(path)
+    assert len(records) == 20
+    assert rejected == []
 
+def test_load_archive_returns_rejectedfiles_and_good_files_from_a_mix():
+    pathj = "data/messy.csv"
+    records,rejected = load_archive(path)
+    assert len(records) > 0
+    assert len(rejected) > 1
 
