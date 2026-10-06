@@ -36,7 +36,31 @@ def validate_id(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_id")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if len(value) != 5:
+        isgood = False
+        reason = "Not 5 characters"
+        return (isgood,reason)
+        
+    if value[0] != 'M' or value[1] != 'S':
+        isgood = False
+        reason = "ID does not start with MS"
+        return (isgood,reason)
+        
+    if value[2].isdigit() != 1 or value[3].isdigit() != 1 or value[4].isdigit() != 1:
+        isgood = False
+        reason = "Must have 3 digits as last three elements of ID"
+        return (isgood,reason)
+        
+    return (isgood,reason)
+
 
 
 def validate_title(value):
@@ -47,7 +71,20 @@ def validate_title(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_title")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if len(value.strip()) < 3:
+        isgood = False
+        reason = "Title must be at least 3 characters long"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_city(value):
@@ -59,7 +96,20 @@ def validate_city(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_city")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.lower() not in [city.lower() for city in KNOWN_CITIES]:
+        isgood = False
+        reason = "City not in known list"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_year(value):
@@ -74,7 +124,32 @@ def validate_year(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_year")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.strip() == "":
+        isgood = False
+        reason = "Year is empty"
+        return (isgood,reason)
+        
+    try:
+        year_int = int(value)
+    except ValueError:
+        isgood = False
+        reason = "Year is not numeric"
+        return (isgood,reason)
+        
+    if year_int < MIN_YEAR or year_int > MAX_YEAR:
+        isgood = False
+        reason = "Year is out of range"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_condition(value):
@@ -85,7 +160,20 @@ def validate_condition(value):
 
     Returns (bool, str).
     """
-    raise NotImplementedError("validate_condition")
+    reason = ""
+    isgood = True
+    
+    if type(value) != str:
+        isgood = False
+        reason = "Is not a string"
+        return (isgood,reason)
+        
+    if value.lower() not in [condition.lower() for condition in VALID_CONDITIONS]:
+        isgood = False
+        reason = "Condition not in known list"
+        return (isgood,reason)
+        
+    return (isgood,reason)
 
 
 def validate_record(record):
@@ -99,4 +187,26 @@ def validate_record(record):
 
     Do not re-write the rules here. Call the five functions above.
     """
-    raise NotImplementedError("validate_record")
+    reasons = []
+    
+    id_valid, id_reason = validate_id(record.get("id", ""))
+    if not id_valid:
+        reasons.append(id_reason)
+        
+    title_valid, title_reason = validate_title(record.get("title", ""))
+    if not title_valid:
+        reasons.append(title_reason)
+        
+    city_valid, city_reason = validate_city(record.get("city", ""))
+    if not city_valid:
+        reasons.append(city_reason)
+        
+    year_valid, year_reason = validate_year(record.get("year", ""))
+    if not year_valid:
+        reasons.append(year_reason)
+        
+    condition_valid, condition_reason = validate_condition(record.get("condition", ""))
+    if not condition_valid:
+        reasons.append(condition_reason)
+        
+    return reasons
