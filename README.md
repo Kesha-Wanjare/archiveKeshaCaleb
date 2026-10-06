@@ -12,11 +12,11 @@
 
 | Field | Type | Example | If it is unknown, we… |
 | --- | --- | --- | --- |
-| id |  | `MS001` |  |
-| title |  |  |  |
-| city |  |  |  |
-| year |  |  |  |
-| condition |  |  |  |
+| id | string | `MS001` | return a boolean with the value false and why, i.e its nonexistence |
+| title | string | "Tarikh al-Sudan" | we return a boolean 'false' and the reason: i.e less than 3 characters |
+| city | string | "Gao" | we return a boolean 'false' and the reason: is not in known cities|
+| year | integer | 1900 | we return a boolean 'false' and the reason: i.e is not in the accepted range|
+| condition | string | 'fair' | we return a boolean 'false' and the reason: It is not one of the recorded conditions |
 
 ---
 
@@ -24,11 +24,11 @@
 
 | Field | Rule(s) | Rejects (example) |
 | --- | --- | --- |
-| id |  |  |
-| title |  |  |
-| city |  |  |
-| year |  |  |
-| condition |  |  |
+| id |  Must start with MS, case sensitive, and have 3 digits after| QR123  |
+| title | Must be at least 3 characters long |  Ab |
+| city | Must appear in the list and appear in known ciities, case doesnt matter | Calebjojo |
+| year | must be between 1100 and 1900 inclusive  | 5050 |
+| condition |  must be one of the possible conditions, case doesnt matter| Ew |
 
 ### Who decided the year range?
 
@@ -61,11 +61,11 @@
 | Test data | Value | Expected | Actual | Pass? |
 | --- | --- | --- | --- | --- |
 | Normal | 1655 | valid |  |  |
-| Abnormal |  |  |  |  |
+| Abnormal | Kesha | invalid |  |  |
 | Extreme (low) | 1100 | valid |  |  |
-| Extreme (high) |  |  |  |  |
+| Extreme (high) | 1900 | valid |  |  |
 | Boundary (below) | 1099 | invalid |  |  |
-| Boundary (above) |  |  |  |  |
+| Boundary (above) | 1901 | invalid |  |  |
 
 ### `_______________` *(one other field of your choice)*
 
@@ -78,9 +78,11 @@
 
 *One paragraph each, written separately and signed. Do not write these together — the point is two honest accounts.*
 
-***(partner 1 name)*:** One thing my partner did that I will steal: One thing I would do differently next time:
+***(Caleb)*:** One thing my partner did that I will steal: 
+One thing I would do differently next time: 
 
-***(partner 2 name)*:** One thing my partner did that I will steal: One thing I would do differently next time:
+***(Kesha)*:** One thing my partner did that I will steal: He reviewed the code in its entirety and gave actual edge cases and feedback, that probably stopped a potential crash.
+One thing I would do differently next time: I would try to be more involved with our direct completion of objectives.
 
 ---
 
