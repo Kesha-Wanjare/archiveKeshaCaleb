@@ -32,8 +32,43 @@
 
 ### Who decided the year range?
 
-*The brief gave you 1100–1900. That was a decision someone made, and it has costs. 1900 excludes a modern copy of an old text. 1100 excludes anything earlier. State whether you accept these bounds or would change them, and say what your choice throws away. An undefended range scores 1 of the 4 marks.*
+I accept those bounds, if we look at our current timeframe, it gets harder and harder to preserve original text that comes from the past, due to natural causes, malhandling and such. This means as we go past the 1100 bound (backwards), the integrity of the text offered becomes more questionable. As for what happens when we go past 1900s, a modern version of a certain literature could omit things the people recording it do not find desirable and possibly adding new information to their benefit, it also becomes difficult to maintain the trustworthiness of such a text. This is why I agree with the current range, depending on the context of the manuscripts collected, it seems most appropriate, however this is at the cost of older texts that might be valid and newer texts that are preserving the older text honestly. 
+---
 
+## 3\. The `c.1590` decision *(3 marks)*
+
+*Record MS009 in* `data/messy.csv` has the year `c.1590` — circa, approximately. Manuscript dating is often approximate, and a scholar may genuinely only know the decade. Your program currently rejects it, so the record is lost.
+
+*Choose one and argue for it:*
+---
+
+## 1\. The record *(3 marks)*
+
+*What one manuscript looks like in our system, and what we do when a field is unknown.*
+
+| Field | Type | Example | If it is unknown, we… |
+| --- | --- | --- | --- |
+| id | string | `MS001` | return a boolean with the value false and why, i.e its nonexistence |
+| title | string | "Tarikh al-Sudan" | we return a boolean 'false' and the reason: i.e less than 3 characters |
+| city | string | "Gao" | we return a boolean 'false' and the reason: is not in known cities|
+| year | integer | 1900 | we return a boolean 'false' and the reason: i.e is not in the accepted range|
+| condition | string | 'fair' | we return a boolean 'false' and the reason: It is not one of the recorded conditions |
+
+---
+
+## 2\. Our validation rules *(4 marks)*
+
+| Field | Rule(s) | Rejects (example) |
+| --- | --- | --- |
+| id |  Must start with MS, case sensitive, and have 3 digits after| QR123  |
+| title | Must be at least 3 characters long |  Ab |
+| city | Must appear in the list and appear in known ciities, case doesnt matter | Calebjojo |
+| year | must be between 1100 and 1900 inclusive  | 5050 |
+| condition |  must be one of the possible conditions, case doesnt matter| Ew |
+
+### Who decided the year range?
+
+I accept those bounds, if we look at our current timeframe, it gets harder and harder to preserve original text that comes from the past, due to natural causes, malhandling and such. This means as we go past the 1100 bound (backwards), the integrity of the text offered becomes more questionable. As for what happens when we go past 1900s, a modern version of a certain literature could omit things the people recording it do not find desirable and possibly adding new information to their benefit, it also becomes difficult to maintain the trustworthiness of such a text. This is why I agree with the current range, depending on the context of the manuscripts collected, it seems most appropriate, however this is at the cost of older texts that might be valid and newer texts that are preserving the older text honestly. 
 ---
 
 ## 3\. The `c.1590` decision *(3 marks)*
@@ -46,11 +81,11 @@
 - **(b)** Store the year as text, so anything can be recorded.
 - **(c)** Store `1590` plus a separate `approximate` flag.
 
-**Our choice:**
+**Our choice:** a
 
-**Why:**
+**Why:** If the scholar only knows the approximate year, they could still input a number in the field for year, as an example, the average year between the bounds of where the actual year geniunely lies, annotating it with a character c, or approximate or possibly, will just cause further complications for the program as there are infinitely many prefixes to dictate "around". Therefore, we stand by our choice to reject but recommend and average, median or any other year of that sort that goes with our programs restrictions. 
 
-**What it costs us:**
+**What it costs us:** We no longer validate academically considered and correct prefixes for the years.
 
 ---
 
@@ -104,7 +139,8 @@ One thing I would do differently next time: I would try to be more involved with
 - [ TRUE ] AI assistants used for explanation only, not to generate our implementation or our tests.
 
 **If you used an AI assistant, say what you asked and what you did with the answer:**
-    We asked the AI to explain why the collaboration test claimed there were 14 authors though it was only me and Kesha
+Kesha: I used an ai assistant to give me the documentation for the python code, especially for the read write file oprations in the fucntions in storage.py, mostly to explain how it works and how to understand it better. I also used it to procide me with git commands and how they work - these were directly implemented. 
+ Caleb   We asked the AI to explain why the collaboration test claimed there were 14 authors though it was only me and Kesha
     It explained that multiple computers we assumed to be multiple authors, it also explained the use of a mailmap
 
     I then implemented a mailmap file so the collaboration test correctly counts 3 authors.
