@@ -1,0 +1,12 @@
+cat << 'EOF' > .mailmap
+Caleb Tanui <caleb.t@aoa.school> Caleb Tanui <caleb@pc-11.aoa.lan>
+Caleb Tanui <caleb.t@aoa.school> Caleb Tanui <caleb@pc-16.aoa.lan>
+Caleb Tanui <caleb.t@aoa.school> Caleb Tanui <caleb@pc-18.aoa.lan>
+Caleb Tanui <caleb.t@aoa.school> Caleb Tanui <caleb@pc-25.aoa.lan>
+Caleb Tanui <caleb.t@aoa.school> Caleb Tanui <caleb@pc-29.aoa.lan>
+Caleb Tanui <caleb.t@aoa.school> CalebTanuiAOA <caleb.t@aoa.school>
+Kesha Wanjare <kesha.w@aoa.school> Kesha Wanjare <kesha@pc-07.aoa.lan>
+Kesha Wanjare <kesha.w@aoa.school> Kesha Wanjare <kesha@pc-10.aoa.lan>
+Kesha Wanjare <kesha.w@aoa.school> Kesha Wanjare <kesha@pc-17.aoa.lan>
+Kesha Wanjare <kesha.w@aoa.school> Miss. Kento /Nanami's Wife/ ONLY wife 100% Canon trust <kesha.w@aoa.school>
+EOF
