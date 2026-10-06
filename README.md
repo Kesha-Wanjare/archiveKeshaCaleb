@@ -89,23 +89,30 @@ I accept those bounds, if we look at our current timeframe, it gets harder and h
 
 ---
 
-## 4\. Our test table *(3 marks)*
+## 4. Our test table
 
 ### `validate_year`
 
 | Test data | Value | Expected | Actual | Pass? |
 | --- | --- | --- | --- | --- |
 | Normal | 1655 | valid | valid | Yes |
-| Abnormal | Kesha | invalid | invalid | Yes |
-| Extreme (low) | 1100 | valid |  |  |
-| Extreme (high) | 1900 | valid |  |  |
-| Boundary (below) | 1099 | invalid |  |  |
-| Boundary (above) | 1901 | invalid |  |  |
+| Abnormal | `Kesha` | invalid | invalid | Yes |
+| Extreme (low) | 1100 | valid | valid | Yes |
+| Extreme (high) | 1900 | valid | valid | Yes |
+| Boundary (below) | 1099 | invalid | invalid | Yes |
+| Boundary (above) | 1901 | invalid | invalid | Yes |
 
-### `_______________` *(one other field of your choice)*
+### `validate_id`
 
 | Test data | Value | Expected | Actual | Pass? |
 | --- | --- | --- | --- | --- |
+| Normal | MS002" | valid | valid | Yes |
+| Abnormal | `Kesha` | invalid | invalid | Yes |
+| Extreme (low) | MS000 | valid | valid | Yes |
+| Extreme (high) | MS999 | valid | valid | Yes |
+| Boundary (below) | ms001 | invalid | invalid | Yes |
+| Boundary (above) | MS99A | invalid | invalid | Yes |
+
 
 ---
 
@@ -113,8 +120,10 @@ I accept those bounds, if we look at our current timeframe, it gets harder and h
 
 *One paragraph each, written separately and signed. Do not write these together — the point is two honest accounts.*
 
-***(Caleb)*:** One thing my partner did that I will steal: 
+***(Caleb)*:** One thing my partner did that I will steal: I liked how she handled the csv and the whole storage.py. Especially the use of [-1] index
+
 One thing I would do differently next time: 
+I would not have stripped in the inputting of a record as that was probably the validation's job
 
 ***(Kesha)*:** One thing my partner did that I will steal: He reviewed the code in its entirety and gave actual edge cases and feedback, that probably stopped a potential crash.
 One thing I would do differently next time: I would try to be more involved with our direct completion of objectives.
@@ -125,12 +134,16 @@ One thing I would do differently next time: I would try to be more involved with
 
 *Required. See the integrity section of the brief.*
 
-- [ ] Both of us can explain every line in this repository.
+- [ TRUE ] Both of us can explain every line in this repository.
 
-- [ ] AI assistants used for explanation only, not to generate our implementation or our tests.
+- [ TRUE ] AI assistants used for explanation only, not to generate our implementation or our tests.
 
 **If you used an AI assistant, say what you asked and what you did with the answer:**
 Kesha: I used an ai assistant to give me the documentation for the python code, especially for the read write file oprations in the fucntions in storage.py, mostly to explain how it works and how to understand it better. I also used it to procide me with git commands and how they work - these were directly implemented. 
+ Caleb   We asked the AI to explain why the collaboration test claimed there were 14 authors though it was only me and Kesha
+    It explained that multiple computers we assumed to be multiple authors, it also explained the use of a mailmap
+
+    I then implemented a mailmap file so the collaboration test correctly counts 3 authors.
 ---
 
 ## Running this project
